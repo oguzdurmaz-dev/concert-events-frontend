@@ -1,29 +1,37 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Layout from "../../components/Layout";
+import Layout from "../../../components/Layout";
 import Link from "next/link";
+import Image from "next/image";
+import {FaImage} from "react-icons/fa"
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { API_URL } from "../../config/index";
-import styles from "../../styles/Form.module.css";
-
-export default function AddEventPage() {
+import Modal from "../../../components/Modal"
+import { API_URL } from "../../../config/index";
+import styles from "../../../styles/Form.module.css";
+import moment from "moment";
+export default function EditEventPage({ evt }) {
   const [values, setValues] = useState({
-    name: "",
-    performers: "",
-    venue: "",
-    address: "",
-    date: "",
-    time: "",
-    description: "",
+    name: evt.name,
+    performers: evt.performers,
+    venue: evt.venue,
+    address: evt.address,
+    date: evt.date,
+    time: evt.time,
+    description: evt.description,
   });
+
+  const [showModal,setShowModal]=useState(false);
+
+  const [imagePreview, setImagePreview] = useState(
+    evt.image ? evt.image.formats.thumbnail.url : null
+  );
   const router = useRouter();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
-  const handleSubmit = async(e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const hasEmptyFields = Object.values(values).some(
       (element) => element === ""
@@ -32,28 +40,30 @@ export default function AddEventPage() {
       toast.error("Please fill all fields.");
     }
 
-    const res = await fetch(`${API_URL}/events`, {
-      method: "POST",
+    const res = await fetch(`${API_URL}/events/${evt.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(values)
+      body: JSON.stringify(values),
     });
-    if(!res.ok){
-        toast.error("Something Went Wrong")
-    }
-    else {
-        const evt= await res.json();
-       
-        router.push(`/events/${evt.slug}`)
-        toast.success("Event Added!");
+    if (!res.ok) {
+      toast.error("Something Went Wrong");
+    } else {
+      const evt = await res.json();
+
+      router.push(`/events/${evt.slug}`);
+      toast.success("Event Added!");
     }
   };
 
   return (
     <Layout title="Add New Event">
       <Link href="/events">Go back</Link>
-      <h1>Add Event</h1>
+      <h1>Edit Event</h1>
+      <h3 className={styles.subHead}>
+        Current editing - <span>{evt.name}</span>
+      </h3>
       <ToastContainer />
       <form className={styles.form}>
         <div className={styles.grid}>
@@ -104,7 +114,7 @@ export default function AddEventPage() {
               type="date"
               id="date"
               name="date"
-              value={values.date}
+              value={moment(values.date).format("yyyy-MM-DD")}
               onChange={handleInputChange}
             />
           </div>
@@ -131,10 +141,35 @@ export default function AddEventPage() {
         <input
           type="submit"
           onClick={handleSubmit}
-          value="Add Event"
+          value="Update Event"
           className="btn"
         />
       </form>
+      <h2>Event Iamge</h2>
+      {imagePreview ? (
+        <Image src={imagePreview} height={100} width={170} />
+      ) : (
+        <div>
+          <p>No image uploaded</p>
+        </div>
+      )}
+      <div>
+          <button onClick={()=>setShowModal(true)} className="btn-secondary"><FaImage/> Set Image</button>
+      </div>
+      <Modal show={showModal} onClose={()=>setShowModal(false)}>
+        IMAGE UPLOAD
+      </Modal>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ params: { id } }) {
+  const res = await fetch(`${API_URL}/events/${id}`);
+  const evt = await res.json();
+
+  return {
+    props: {
+      evt,
+    },
+  };
 }
