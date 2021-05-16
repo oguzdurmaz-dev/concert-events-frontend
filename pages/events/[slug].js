@@ -10,7 +10,7 @@ export default function EventPage({ event }) {
   };
 
   return (
-    <Layout>
+    <Layout title={`Concert Events - ${event.name}`}>
       <div className={styles.event}>
         <div className={styles.controls}>
           <Link href={`/events/edit/${event.id}`}>
@@ -23,7 +23,7 @@ export default function EventPage({ event }) {
           </a>
         </div>
         <span>
-          {event.date} at {event.time}{" "}
+        {new Date(event.date).toLocaleDateString('en-US')} at {event.time}{" "}
         </span>
         <h1>{event.name}</h1>
         {event.image && (

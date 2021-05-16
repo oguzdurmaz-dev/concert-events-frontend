@@ -26,7 +26,7 @@ export async function getStaticProps() {
   const events = await res.json();
   return {
     // props: { events:events.events.slice(0,3) },
-    props: { events:events },
+    props: { events },
     revalidate: 1,
   };
 }

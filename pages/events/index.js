@@ -2,11 +2,14 @@ import Layout from "../../components/Layout";
 import EventItem from "../../components/EventItem";
 import { API_URL } from "../../config/index";
 
+
 export default function EventsPage({ events }) {
-  
+
+
+
   return (
     <Layout>
-      <h1> Events {events.length}</h1>
+      <h1> Events {events.length} </h1>
 
       {events.map((evt) => (
         <EventItem key={evt.id} evt={evt}/>
