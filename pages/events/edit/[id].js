@@ -7,9 +7,13 @@ import {FaImage} from "react-icons/fa"
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Modal from "../../../components/Modal"
+import ImageUpload from "../../../components/ImageUpload"
 import { API_URL } from "../../../config/index";
 import styles from "../../../styles/Form.module.css";
 import moment from "moment";
+
+
+
 export default function EditEventPage({ evt }) {
   const [values, setValues] = useState({
     name: evt.name,
@@ -20,6 +24,13 @@ export default function EditEventPage({ evt }) {
     time: evt.time,
     description: evt.description,
   });
+
+  const imageUploaded= async (e)=>{
+      const res= await fetch(`${API_URL}/events/${evt.id}`)
+      const data= await res.json();
+      setImagePreview(data.image.formats.thumbnail.url)
+      setShowModal(false)
+  }
 
   const [showModal,setShowModal]=useState(false);
 
@@ -157,7 +168,7 @@ export default function EditEventPage({ evt }) {
           <button onClick={()=>setShowModal(true)} className="btn-secondary"><FaImage/> Set Image</button>
       </div>
       <Modal show={showModal} onClose={()=>setShowModal(false)}>
-        IMAGE UPLOAD
+       <ImageUpload evtId={evt.id} imageUploaded={imageUploaded}/>
       </Modal>
     </Layout>
   );
