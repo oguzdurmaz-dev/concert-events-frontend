@@ -3,16 +3,14 @@ import "react-toastify/dist/ReactToastify.css";
 import Layout from "../../../components/Layout";
 import Link from "next/link";
 import Image from "next/image";
-import {FaImage} from "react-icons/fa"
+import { FaImage } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Modal from "../../../components/Modal"
-import ImageUpload from "../../../components/ImageUpload"
+import Modal from "../../../components/Modal"; //popups
+import ImageUpload from "../../../components/ImageUpload";
 import { API_URL } from "../../../config/index";
 import styles from "../../../styles/Form.module.css";
-import moment from "moment";
-
-
+import moment from "moment"; //edit date
 
 export default function EditEventPage({ evt }) {
   const [values, setValues] = useState({
@@ -25,14 +23,14 @@ export default function EditEventPage({ evt }) {
     description: evt.description,
   });
 
-  const imageUploaded= async (e)=>{
-      const res= await fetch(`${API_URL}/events/${evt.id}`)
-      const data= await res.json();
-      setImagePreview(data.image.formats.thumbnail.url)
-      setShowModal(false)
-  }
+  const imageUploaded = async (e) => {
+    const res = await fetch(`${API_URL}/events/${evt.id}`);
+    const data = await res.json();
+    setImagePreview(data.image.formats.thumbnail.url);
+    setShowModal(false);
+  };
 
-  const [showModal,setShowModal]=useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [imagePreview, setImagePreview] = useState(
     evt.image ? evt.image.formats.thumbnail.url : null
@@ -165,19 +163,21 @@ export default function EditEventPage({ evt }) {
         </div>
       )}
       <div>
-          <button onClick={()=>setShowModal(true)} className="btn-secondary"><FaImage/> Set Image</button>
+        <button onClick={() => setShowModal(true)} className="btn-secondary">
+          <FaImage /> Set Image
+        </button>
       </div>
-      <Modal show={showModal} onClose={()=>setShowModal(false)}>
-       <ImageUpload evtId={evt.id} imageUploaded={imageUploaded}/>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
       </Modal>
     </Layout>
   );
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id }, req }) {
   const res = await fetch(`${API_URL}/events/${id}`);
   const evt = await res.json();
-
+  console.log(req.headers.cookie); 
   return {
     props: {
       evt,

@@ -44,7 +44,6 @@ export default function AddEventPage() {
     }
     else {
         const evt= await res.json();
-       
         router.push(`/events/${evt.slug}`)
         toast.success("Event Added!");
     }

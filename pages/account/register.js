@@ -3,10 +3,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
-import Layout from "../../components/Layout";
-import styles from "../../styles/AuthForm.module.css";
+import Layout from "@/components/Layout";
+import styles from "@/styles/AuthForm.module.css";
+import AuthContext from "@/context/AuthContext"
 
 export default function RegisterPage() {
+
+    const {register,error}=useContext(AuthContext)
+
+    useEffect(()=>error&&toast.error(error))
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +24,12 @@ export default function RegisterPage() {
     if (password !== passwordConfirm) {
       toast.error("Passwords do not match!");
     } else {
-      console.log({ email, password, username });
+      if(username===""){
+        toast.error("Username can't be empty")
+      }
+      else {
+        register({ email, password, username });
+      }
     }
   };
 
