@@ -4,7 +4,6 @@ export default function Pagination({page,total}) {
 
     
   const lastPage=Math.ceil(total/PER_PAGE)
-
     return (
         <>
              {page>1?(
