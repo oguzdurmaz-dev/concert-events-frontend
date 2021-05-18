@@ -32,11 +32,7 @@ export default function Header() {
             //if logged in
             <>
               {" "}
-              <li>
-                <Link href="/events/add">
-                  <a>Add Event</a>
-                </Link>
-              </li>
+              
               <li>
                 <Link href="/account/dashboard">
                   <a>Dashboard</a>

@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { NEXT_URL } from "../config/index";
+import { NEXT_URL } from "@/config/index";
 
 const AuthContext = createContext();
 

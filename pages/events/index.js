@@ -1,7 +1,7 @@
-import Layout from "../../components/Layout";
-import EventItem from "../../components/EventItem";
-import { API_URL, PER_PAGE } from "../../config/index";
-import Pagination from "../../components/Pagination";
+import Layout from "@/components/Layout";
+import EventItem from "@/components/EventItem";
+import { API_URL, PER_PAGE } from "@/config/index";
+import Pagination from "@/components/Pagination";
 
 export default function EventsPage({ events,total,page }) {
 

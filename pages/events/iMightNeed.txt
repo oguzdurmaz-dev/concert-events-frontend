@@ -1,0 +1,10 @@
+  <div className={styles.controls}>
+          <Link href={`/events/edit/${event.id}`}>
+            <a>
+              <FaPencilAlt /> Edit Event
+            </a>
+          </Link>
+          <a href="#" className={styles.delete} onClick={deleteEvent}>
+            <FaTimes /> Delete Event
+          </a>
+        </div>

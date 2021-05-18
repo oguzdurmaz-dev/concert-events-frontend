@@ -1,0 +1,13 @@
+.dash h1 span {
+    font-size: 20px;
+    color: #777;
+    margin-left: 10px;
+  }
+  a.addEvent{display: block;
+    text-align: right;
+    font-weight: bold;
+    color: black;}
+  .dash h3 {
+    font-size: 25px;
+    color: red;
+  }
