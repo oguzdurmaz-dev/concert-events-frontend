@@ -5,8 +5,11 @@ import { NEXT_URL } from "@/config/index";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [count,setCount]=useState("ASC");
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
+
 
   const router =useRouter();
 
@@ -82,7 +85,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, error, register, login, logout }}>
+    <AuthContext.Provider value={{ user, error, register, login, logout,count }}>
       {children}
     </AuthContext.Provider>
   );
