@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import Layout from "@/components/Layout";
+import EventMap from "@/components/EventMap";
 import { API_URL } from "@/config/index";
 import styles from "@/styles/Event.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+
 
 export default function EventPage({ event }) {
   const router = useRouter();
@@ -35,6 +37,9 @@ export default function EventPage({ event }) {
         <h3>Venue : </h3>
         <p>{event.venue}</p>
         <p>{event.address}</p>
+
+        <EventMap event={event}/>
+
         <Link href="/events">
           <a className={styles.back}>{"<"} Go Back</a>
         </Link>
