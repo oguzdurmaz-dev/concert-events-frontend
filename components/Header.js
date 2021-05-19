@@ -10,7 +10,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.logo}>
         <Link href="/">
-          <a>Concert Events</a>
+          <a>TicketX V 1.0.0</a>
         </Link>
       </div>
       <div>
